@@ -277,7 +277,8 @@
 			else{
 				$_SESSION['lang'] = '';
 			}
-		redirect($_SERVER['HTTP_REFERER']);
+			$link_ =$_SERVER['HTTP_REFERER'];
+		redirect($link_);
 		break;
 											
 		default: 

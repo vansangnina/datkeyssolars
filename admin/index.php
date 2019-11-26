@@ -235,6 +235,9 @@
 	}
 	
 	if($source!="") include _source.$source.".php";
+
+	$com = htmlspecialchars($_REQUEST["com"]);
+	$act = htmlspecialchars($_REQUEST["act"]);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -280,7 +283,7 @@
 	  
 	 $(".cp3").CanvasColorPicker();
 		$(".sub li").each(function(){
-			if($(this).hasClass("<?=$_REQUEST["com"].'_'.$_REQUEST["act"]?>")){
+			if($(this).hasClass("<?=$com.'_'.$act?>")){
 				$(this).addClass("this");
 			}
 		})

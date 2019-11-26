@@ -9,7 +9,7 @@
 	include_once _lib."class.database.php";
 	$d = new database($config['database']);
 	
-	$links=$_POST['links'];
+	$links= htmlspecialchars($_POST['links']);
 
 ?>
 <link rel="stylesheet" type="text/css" href="zoom/cloud-zoom.css" />

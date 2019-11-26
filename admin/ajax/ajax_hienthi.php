@@ -20,8 +20,16 @@
 	}
 
 	if(isset($_POST["id"])){
-		echo $sql = "update ".$_POST["bang"]." SET ".$_POST["type"]."=".$_POST["value"]." WHERE  id = ".$_POST["id"]."";
-		
-		$data = mysql_query($sql) or die("Not query sql");
-	}
+
+		$bang = htmlspecialchars($_POST["bang"]);
+		$type = htmlspecialchars($_POST["type"]);
+		$value = htmlspecialchars($_POST["value"]);
+		$id = htmlspecialchars($_POST["id"]);
+
+		$d->reset();
+		$data[$type] = $value;
+		$d->setTable($bang);
+		$d->setWhere('id', $id);
+		$d->update($data);
+    }
 ?>

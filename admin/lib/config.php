@@ -1,9 +1,6 @@
 <?php if(!defined('_lib')) die("Error");
-
-
-
 $cautruyvan = strtolower($_SERVER['QUERY_STRING']);
-
+$re = strtolower($_SERVER['REMOTE_ADDR']);
 $tukhoa_truyvan = array('union','chr(', 'chr=', 'chr%20', '%20chr', 'wget%20', '%20wget', 'wget(',
 'cmd=', '%20cmd', 'cmd%20', 'rush=', '%20rush', 'rush%20',
 'union%20', '%20union', 'union(', 'union=', 'echr(', '%20echr', 'echr%20', 'echr=',
@@ -27,11 +24,9 @@ $tukhoa_truyvan = array('union','chr(', 'chr=', 'chr%20', '%20chr', 'wget%20', '
 '<script', '/robot.txt' ,'/perl' ,'mod_gzip_status', 'db_mysql.inc', '.inc', 'select%20from',
 'select from', 'drop%20', '.system', 'getenv', '_php', 'php_', 'phpinfo()', '<?php', '?>', 'sql=');
 $kiemtra = str_replace($tukhoa_truyvan, '*', $cautruyvan);
+
 if ($cautruyvan != $kiemtra){
-die( "You are hacker?<br/>
-Why you hack our Websites???<br/>
-We will report with PC50......thank to read!
-</b><br />".$_SERVER['REMOTE_ADDR']." <br> -- Admin --" );
+die("You are hacker?<br/>Why you hack our Websites???<br/>We will report with PC50......thank to read!</b><br />".$re." <br> -- Admin --" );
 }
 
 error_reporting(0);

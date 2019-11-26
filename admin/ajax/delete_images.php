@@ -12,8 +12,8 @@
 	$d = new database($config['database']);
 	
 	$id=$_POST['id'];
-	$table=$_POST['table'];
-	$links=$_POST['links'];
+	$table=htmlspecialchars($_POST['table']);
+	$links=htmlspecialchars($_POST['links']);
 
 	$d->reset();
 	$sql = "select id,photo,thumb from #_$table where id='".$id."'";

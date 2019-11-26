@@ -3,6 +3,8 @@
 	$act = (isset($_REQUEST['act'])) ? addslashes($_REQUEST['act']) : "";
 	$duongdan=$_SERVER['HTTP_REFERER'];
 
+	$id_hinhanh= int()$_REQUEST['id_hinhanh'];
+
 switch($act){
 	case "man_photo":
 		get_photos();
@@ -84,7 +86,7 @@ function get_photos(){
 		}	
 	}
 	
-	$sql = "select * from #_hinhanh where id_hinhanh='".$_REQUEST['id_hinhanh']."' and type='".$_REQUEST['type']."'";
+	$sql = "select * from #_hinhanh where id_hinhanh='".$id_hinhanh."' and type='".$_REQUEST['type']."'";
 	if($_REQUEST['key']!='')
 	{
 	$sql.=" and ten like '%".$_REQUEST['key']."%'";
@@ -94,7 +96,7 @@ function get_photos(){
 	$d->query($sql);
 	$items = $d->result_array();
 	$curPage = isset($_GET['curPage']) ? $_GET['curPage'] : 1;
-	$url="index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."";
+	$url="index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."";
 	$maxR=10;
 	$maxP=4;
 	$paging=paging($items, $url, $curPage, $maxR, $maxP);
@@ -106,18 +108,18 @@ function get_photo(){
 	global $d, $item, $list_cat;
 	$id = isset($_GET['id']) ? themdau($_GET['id']) : "";
 	if(!$id)
-	transfer("Không nhận được dữ liệu", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+	transfer("Không nhận được dữ liệu", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 	$d->setTable('hinhanh');
 	$d->setWhere('id', $id);
 	$d->select();
-	if($d->num_rows()==0) transfer("Dữ liệu không có thực", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+	if($d->num_rows()==0) transfer("Dữ liệu không có thực", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 	$item = $d->fetch_array();	
 }
 
 function save_photo(){
 	global $d;
 	
-	if(empty($_POST)) transfer("Không nhận được dữ liệu", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+	if(empty($_POST)) transfer("Không nhận được dữ liệu", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 	$id = isset($_POST['id']) ? themdau($_POST['id']) : "";
 	if($id){
 			$file_name=$_FILES['file']['name'];
@@ -136,7 +138,7 @@ function save_photo(){
 				}
 			}
 			
-			$data['id_hinhanh'] = $_REQUEST['id_hinhanh'];
+			$data['id_hinhanh'] = $id_hinhanh;
 			$data['type'] = $_REQUEST['type'];
 						
 			$data['stt'] = $_POST['stt'];
@@ -151,8 +153,8 @@ function save_photo(){
 			$d->reset();
 			$d->setTable('hinhanh');
 			$d->setWhere('id', $id);
-			if(!$d->update($data)) transfer("Cập nhật dữ liệu bị lỗi", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
-			redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+			if(!$d->update($data)) transfer("Cập nhật dữ liệu bị lỗi", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
+			redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 			
 	}
 	{ 			
@@ -162,7 +164,7 @@ function save_photo(){
 					{		
 						if($_REQUEST['type']=='sanpham'){
 						$data['thumb'] = create_thumb($data['photo'], 100, 100, _upload_hinhthem,$file_name,1);	}					
-						$data['id_hinhanh'] = $_REQUEST['id_hinhanh'];
+						$data['id_hinhanh'] = $id_hinhanh;
 						$data['type'] = $_REQUEST['type'];
 						$data['stt'] = $_POST['stt'.$i];
 						$data['ten'] = $_POST['ten'.$i];	
@@ -173,10 +175,10 @@ function save_photo(){
 						$data['hienthi'] = isset($_POST['hienthi'.$i]) ? 1 : 0;	
 						$data['noibat'] = isset($_POST['noibat'.$i]) ? 1 : 0;																	
 						$d->setTable('hinhanh');
-						if(!$d->insert($data)) transfer("Lưu dữ liệu bị lỗi", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+						if(!$d->insert($data)) transfer("Lưu dữ liệu bị lỗi", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 					}
 			}
-			redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+			redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 	}
 }
 //===========================================================
@@ -198,7 +200,7 @@ function savestt_photo(){
 		}
 	}
 	
-	redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+	redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 }
 
 function delete_photo(){
@@ -208,13 +210,13 @@ function delete_photo(){
 		$d->setTable('hinhanh');
 		$d->setWhere('id', $id);
 		$d->select();
-		if($d->num_rows()==0) transfer("Dữ liệu không có thực", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+		if($d->num_rows()==0) transfer("Dữ liệu không có thực", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 		$row = $d->fetch_array();
 		delete_file(_upload_hinhthem.$row['photo']);
 		if($d->delete())
-			redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+			redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 		else
-			transfer("Xóa dữ liệu bị lỗi", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+			transfer("Xóa dữ liệu bị lỗi", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 	}elseif (isset($_GET['listid'])==true){
 		$listid = explode(",",$_GET['listid']); 
 		for ($i=0 ; $i<count($listid) ; $i++){
@@ -231,7 +233,7 @@ function delete_photo(){
 			$d->query($sql);
 		}
 			
-		} redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");} else transfer("Không nhận được dữ liệu", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$_REQUEST['id_hinhanh']."&type=".$_REQUEST['type']."");
+		} redirect("index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");} else transfer("Không nhận được dữ liệu", "index.php?com=hinhanh&act=man_photo&id_hinhanh=".$id_hinhanh."&type=".$_REQUEST['type']."");
 }
 
 ?>

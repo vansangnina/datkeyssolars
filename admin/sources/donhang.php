@@ -2,6 +2,7 @@
 
 $act = (isset($_REQUEST['act'])) ? addslashes($_REQUEST['act']) : "";
 $id=$_REQUEST['id'];
+$curPage = $_REQUEST['curPage'];
 switch($act){
 
 	case "man":
@@ -142,7 +143,7 @@ function save_item(){
 		$d->setTable('donhang');
 		$d->setWhere('id', $id);
 		if($d->update($data))
-			redirect("index.php?com=order&act=man&curPage=".$_REQUEST['curPage']."");
+			redirect("index.php?com=order&act=man&curPage=".$curPage."");
 		else
 			transfer("Cập nhật dữ liệu bị lỗi", "index.php?com=order&act=man");
 	}else{
@@ -175,8 +176,8 @@ function delete_item(){
 	if($_REQUEST['id_cat']!='')
 	{ $id_catt="&id_cat=".$_REQUEST['id_cat'];
 	}
-	if($_REQUEST['curPage']!='')
-	{ $id_catt.="&curPage=".$_REQUEST['curPage'];
+	if($curPage!='')
+	{ $id_catt.="&curPage=".$curPage;
 	}
 	
 	
