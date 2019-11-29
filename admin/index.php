@@ -11,6 +11,8 @@
 	include_once _lib."library.php";
 	include_once _lib."pclzip.php";
 	include_once _lib."class.database.php";	
+
+	echo "ád";
 		
 	$com = (isset($_REQUEST['com'])) ? addslashes($_REQUEST['com']) : "";
 	$act = (isset($_REQUEST['act'])) ? addslashes($_REQUEST['act']) : "";
